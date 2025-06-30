@@ -1,0 +1,236 @@
+/* Skeleton Loader Styles */
+.skeleton-wrapper {
+  padding: 0;
+  background: #fff;
+  min-height: 100vh;
+}
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+.skeleton-menu, .skeleton-bell {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-title {
+  width: 120px;
+  height: 24px;
+  border-radius: 8px;
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-timetable-label {
+  width: 160px;
+  height: 28px;
+  margin: 24px 0 12px 16px;
+  border-radius: 8px;
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-timetable-cards {
+  display: flex;
+  gap: 16px;
+  padding: 0 16px 16px 16px;
+}
+.skeleton-card {
+  flex: 1;
+  height: 140px;
+  border-radius: 12px;
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 16px;
+  gap: 12px;
+}
+.skeleton-add-label {
+  width: 140px;
+  height: 22px;
+  margin: 16px 0 4px 16px;
+  border-radius: 8px;
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-add-desc {
+  width: 220px;
+  height: 16px;
+  margin: 0 0 16px 16px;
+  border-radius: 8px;
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 0 16px 16px 16px;
+}
+.skeleton-tile {
+  height: 140px;
+  border-radius: 16px;
+  background: #f8f6ef;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 18px 12px 12px 12px;
+  gap: 10px;
+  border: 1.5px solid #e0e0e0;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.07);
+}
+.skeleton-tile-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #ececec;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-line {
+  border-radius: 6px;
+  background: #e0e0e0;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-line-lg {
+  width: 80%;
+  height: 18px;
+}
+.skeleton-line-md {
+  width: 60%;
+  height: 14px;
+}
+.skeleton-line-sm {
+  width: 40%;
+  height: 10px;
+}
+/* Shimmer Animation */
+.skeleton-menu:before, .skeleton-bell:before, .skeleton-title:before, .skeleton-timetable-label:before, .skeleton-card:before, .skeleton-add-label:before, .skeleton-add-desc:before, .skeleton-tile:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, #ececec 0%, #f5f5f5 50%, #ececec 100%);
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skeleton-title-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.icon-menu, .icon-bell, .icon-plus {
+  vertical-align: middle;
+}
+
+.skeleton-timetable-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px 8px 16px;
+  margin-bottom: 18px;
+}
+.skeleton-timetable-label-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #222;
+}
+.skeleton-dost-gradient {
+  padding: 4px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  /* font-weight: 500; */
+  color: #222;
+  background: linear-gradient(90deg, #ffb86c 0%, #ff6e7f 100%);
+  color: #000;
+  box-shadow: 0 1px 4px rgba(255,110,127,0.08);
+}
+.skeleton-add-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 0 16px;
+}
+.skeleton-add-label-text {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #222;
+}
+.skeleton-add-desc-text {
+  font-size: 1rem;
+  color: #444;
+  margin: 0 0 16px 16px;
+}
+
+/* Bottom Navigation */
+.skeleton-bottom-nav {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 64px;
+  z-index: 10;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #888;
+  gap: 2px;
+  flex: 1;
+  padding: 6px 0 0 0;
+}
+.nav-item.active {
+  color: #ff9800;
+}
+.nav-icon {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 2px;
+  object-fit: contain;
+}
+
+@media (max-width: 576px) {
+  .skeleton-bottom-nav {
+    height: 56px;
+  }
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Color the menu icon orange if possible */
+.colored-menu {
+  /* If SVG, use fill: #ff9800; */
+  /* For PNG, use filter to approximate orange */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(81%) saturate(749%) hue-rotate(-19deg) brightness(101%) contrast(101%);
+} 

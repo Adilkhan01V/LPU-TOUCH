@@ -1,0 +1,25 @@
+/* Responsive styles */
+
+/* Small devices (phones) */
+@media (max-width: 576px) {
+    .container {
+        padding: 12px;
+    }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 769px) {
+    .container {
+        max-width: 768px;
+        margin: 0 auto;
+    }
+}
+
+/* Add more responsive styles as needed */ 
