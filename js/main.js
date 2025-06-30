@@ -286,13 +286,20 @@ function showMessPassPreview() {
         .then(res => res.text())
         .then(html => {
             document.getElementById('app').innerHTML = html;
-            // Fill with sample data
-            document.getElementById('messPassProfilePic').src = 'assets/lappu.png';
-            document.getElementById('messPassMealName').textContent = 'Lunch';
-            document.getElementById('messPassRegId').textContent = '12416962';
-            document.getElementById('messPassName').textContent = 'Shubh Porwal';
-            document.getElementById('messPassMessName').textContent = 'Mess-Centre-01';
-            document.getElementById('messPassCourse').textContent = 'P132:B.Tech. (Computer Science and Engineering)(2024)';
+            // Use actual user data
+            const userData = JSON.parse(localStorage.getItem('lpuUserData')) || {};
+            document.getElementById('messPassProfilePic').src = userData.profilePic || 'assets/lappu.png';
+            document.getElementById('messPassMealName').textContent = 'Lunch'; // You can make this dynamic if needed
+            document.getElementById('messPassRegId').textContent = userData.regId || 'Reg ID';
+            // Format name
+            if (userData.name) {
+                const formattedName = userData.name.trim().replace(/\s+/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+                document.getElementById('messPassName').textContent = formattedName;
+            } else {
+                document.getElementById('messPassName').textContent = 'Name';
+            }
+            document.getElementById('messPassMessName').textContent = 'Mess-Centre-01'; // You can make this dynamic if needed
+            document.getElementById('messPassCourse').textContent = userData.course || 'P132:B.Tech. (Computer Science and Engineering)(2024)';
             const now = new Date();
             document.getElementById('messPassDate').textContent = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
             document.getElementById('messPassTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
