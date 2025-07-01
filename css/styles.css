@@ -2,15 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
-/* Mobile App Fixes - Prevent Wobble and Zoom */
-html, body {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    touch-action: manipulation;
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -25,26 +16,14 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #f5f5f5;
-    min-height: 100vh;
-    height: auto;
-    overscroll-behavior: none;
-    -webkit-overscroll-behavior: none;
-    overscroll-behavior-y: none;
-    -webkit-overflow-scrolling: touch;
-    touch-action: manipulation;
-    overflow-x: hidden;
-    overflow-y: auto;
+    /* overflow: hidden; */
 }
 
 #app {
-    max-width: 100vw;
+    max-width: 100%;
     min-height: 100vh;
-    height: auto;
     margin: 0 auto;
     position: relative;
-    overscroll-behavior: contain;
-    touch-action: manipulation;
-    overflow-x: hidden;
 }
 
 /* Mobile-first base styles */
@@ -76,13 +55,7 @@ body {
 .dashboard-wrapper {
   background: #fff;
   min-height: 100vh;
-  height: auto;
   padding-bottom: 80px;
-  overscroll-behavior-y: contain;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
-  max-width: 100vw;
-  overflow-x: hidden;
 }
 .dashboard-header {
   display: flex;
@@ -171,14 +144,10 @@ body {
   margin: 0 0 16px 16px;
 }
 .dashboard-tiles {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  padding: 0 8px 16px 8px;
+  padding: 0 16px 16px 16px;
 }
 .dashboard-tile {
   background: #fff3e0aa;
@@ -193,10 +162,6 @@ body {
   position: relative;
   padding: 18px 8px 12px 8px;
   gap: 8px;
-  touch-action: manipulation;
-  min-width: 0;
-  max-width: 100%;
-  box-sizing: border-box;
 }
 .dashboard-tile-active {
   border: 2px solid #ffb86c;
@@ -245,23 +210,17 @@ body {
   align-items: center;
   height: 64px;
   z-index: 10;
-  pointer-events: auto;
 }
 /***** END DASHBOARD STYLES *****/
 
 .login-container {
     min-height: 100vh;
-    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, #ffb88c 0%, #ffcf8c 100%);
     padding: 0 1rem;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    max-width: 100vw;
-    overflow-x: hidden;
 }
 .login-header {
     text-align: center;
@@ -323,7 +282,6 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     margin-top: 0.5rem;
     transition: background 0.2s;
-    touch-action: manipulation;
 }
 .login-btn:hover {
     background: linear-gradient(90deg, #ffcf8c 0%, #ff914d 100%);
@@ -436,8 +394,6 @@ body {
     margin: 0;
     max-height: 52vh;
     overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
 }
 .side-menu-list li {
     display: flex;
@@ -451,7 +407,6 @@ body {
     cursor: pointer;
     transition: background 0.18s;
     border-bottom: 1px solid #ececec;
-    touch-action: manipulation;
 }
 .side-menu-list li:hover {
     background: #ffe0c2;
@@ -486,7 +441,6 @@ body {
     justify-content: center;
     gap: 0.7rem;
     transition: background 0.2s;
-    touch-action: manipulation;
 }
 .side-menu-logout:hover {
     background: linear-gradient(90deg, #ffcf8c 0%, #ff914d 100%);
@@ -503,12 +457,6 @@ body {
     max-width: 100vw;
     margin: 1rem 0 0 0;
     padding: 0 0.7rem;
-    height: auto;
-    min-height: calc(100vh - 2rem);
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    max-width: 100vw;
-    overflow-x: hidden;
 }
 .mess-profile-card {
     width: 100%;
@@ -584,7 +532,6 @@ body {
     justify-content: center;
     gap: 0.7rem;
     position: relative;
-    touch-action: manipulation;
 }
 .mess-meal-card:hover {
     background: linear-gradient(90deg, #ffcf8c 0%, #f74717 100%);
@@ -638,6 +585,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  /* background: rgba(0,0,0,0.7); */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -745,16 +693,12 @@ body {
 .messpass-bg {
   background: #f8f8f8;
   min-height: 100vh;
-  height: auto;
+  height: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 2.5rem 0.5rem 1rem 0.5rem;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  -webkit-overflow-scrolling: touch;
-  max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .messpass-card {
   background: #fff;
@@ -827,39 +771,4 @@ body {
   margin-bottom: 1.1rem;
   margin-top: 2rem;
   margin-left: 2px;
-}
-
-/* iOS Safari specific fixes */
-@supports (-webkit-touch-callout: none) {
-    body {
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    input, textarea {
-        -webkit-user-select: text;
-    }
-}
-
-/* Scroll utility classes */
-.scroll-container {
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    height: auto;
-    min-height: 100vh;
-}
-
-.scroll-content {
-    height: auto;
-    min-height: inherit;
-    overflow: visible;
-}
-
-img, video {
-    max-width: 100%;
-    height: auto;
-    display: block;
 }

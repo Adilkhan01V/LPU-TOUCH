@@ -14,32 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //     showDashboard();
 // });
 
-// Prevent zoom on double tap and pinch
-document.addEventListener('DOMContentLoaded', function() {
-    // Prevent double-tap zoom
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function(event) {
-        const now = new Date().getTime();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, false);
-
-    // Prevent pinch zoom
-    document.addEventListener('touchstart', function(event) {
-        if (event.touches.length > 1) {
-            event.preventDefault();
-        }
-    }, { passive: false });
-
-    document.addEventListener('touchmove', function(event) {
-        if (event.scale !== 1) {
-            event.preventDefault();
-        }
-    }, { passive: false });
-});
-
 function showLoginPage(isFirstTime) {
     fetch('components/Login.html')
         .then(res => res.text())
