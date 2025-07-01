@@ -1,18 +1,18 @@
 // Main JavaScript file
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Check if user data exists in localStorage
-//     const userData = JSON.parse(localStorage.getItem('lpuUserData'));
-//     if (!userData) {
-//         showLoginPage(true); // First time user
-//     } else {
-//         showLoginPage(false); // Returning user
-//     }
-// });
-
 document.addEventListener('DOMContentLoaded', () => {
-    showDashboard();
+    // Check if user data exists in localStorage
+    const userData = JSON.parse(localStorage.getItem('lpuUserData'));
+    if (!userData) {
+        showLoginPage(true); // First time user
+    } else {
+        showLoginPage(false); // Returning user
+    }
 });
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     showDashboard();
+// });
 
 function showLoginPage(isFirstTime) {
     fetch('components/Login.html')
