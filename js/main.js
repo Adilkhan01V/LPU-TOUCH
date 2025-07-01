@@ -249,20 +249,46 @@ function showScannerPage() {
             document.getElementById('app').innerHTML = html;
             // Enable camera
             const video = document.getElementById('scannerVideo');
+            const canvas = document.createElement('canvas');
+            let scanActive = true;
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(stream => {
                         scannerStream = stream;
                         video.srcObject = stream;
+                        video.setAttribute('playsinline', true); // for iOS
+                        video.play();
+                        requestAnimationFrame(tick);
                     })
                     .catch(err => {
                         alert('Camera access denied or not available.');
                     });
             }
+            function tick() {
+                if (!scanActive) return;
+                if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    if (code) {
+                        scanActive = false;
+                        alert('QR Code detected: ' + code.data);
+                        showMessFoodScanner();
+                        return;
+                    }
+                }
+                requestAnimationFrame(tick);
+            }
             // Add back button event
             const backBtn = document.getElementById('scannerBackBtn');
             if (backBtn) {
-                backBtn.addEventListener('click', showMessFoodScanner);
+                backBtn.addEventListener('click', function() {
+                    scanActive = false;
+                    showMessFoodScanner();
+                });
             }
         });
 }
