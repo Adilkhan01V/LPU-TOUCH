@@ -236,57 +236,98 @@ function showMessFoodScanner() {
             // Add scanner card click events
             const mealCards = document.querySelectorAll('.mess-meal-card');
             mealCards.forEach(card => {
-                card.addEventListener('click', showScannerPage);
+                card.addEventListener('click', function() {
+                    const mealName = card.textContent.trim().split(' ')[0]; // Get the meal name (e.g., 'Tea')
+                    showScannerPage(mealName);
+                });
             });
         });
 }
 
 let scannerStream = null;
-function showScannerPage() {
+function showScannerPage(mealName) {
+    window.selectedMeal = mealName || null;
     fetch('components/Scanner.html')
         .then(res => res.text())
         .then(html => {
             document.getElementById('app').innerHTML = html;
             // Enable camera
             const video = document.getElementById('scannerVideo');
-            const canvas = document.createElement('canvas');
+            const qrResult = document.getElementById('qrResult');
+            const canvas = document.getElementById('scannerCanvas');
+            const context = canvas.getContext('2d');
             let scanActive = true;
+            let scanTimeout = null;
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(stream => {
                         scannerStream = stream;
                         video.srcObject = stream;
-                        video.setAttribute('playsinline', true); // for iOS
+                        video.setAttribute('playsinline', true); // required for iOS
                         video.play();
-                        requestAnimationFrame(tick);
+                        // Wait for video and jsQR to be ready
+                        function startScanLoop() {
+                            if (!scanActive) return;
+                            if (typeof window.jsQR !== 'function') {
+                                qrResult.textContent = 'Loading scanner...';
+                                setTimeout(startScanLoop, 200);
+                                return;
+                            }
+                            if (video.readyState !== video.HAVE_ENOUGH_DATA || video.videoWidth === 0 || video.videoHeight === 0) {
+                                qrResult.textContent = 'Starting camera...';
+                                setTimeout(startScanLoop, 200);
+                                return;
+                            }
+                            // Set canvas size to video size
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            // QR scanning logic
+                            function tick() {
+                                if (!scanActive) return;
+                                if (video.readyState === video.HAVE_ENOUGH_DATA && video.videoWidth > 0 && video.videoHeight > 0) {
+                                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                                    const code = jsQR(imageData.data, canvas.width, canvas.height);
+                                    if (code) {
+                                        qrResult.textContent = 'QR Code: ' + code.data;
+                                        scanActive = false;
+                                        cleanupScanner();
+                                        if (scanTimeout) clearTimeout(scanTimeout);
+                                        // Redirect to MessPass page with meal name
+                                        showMessPassPreview(window.selectedMeal);
+                                    } else {
+                                        qrResult.textContent = 'Scanning...';
+                                    }
+                                } else {
+                                    qrResult.textContent = 'Camera not ready...';
+                                }
+                                if (scanActive) requestAnimationFrame(tick);
+                            }
+                            // Timeout if no QR code is found after 15 seconds
+                            scanTimeout = setTimeout(() => {
+                                if (scanActive) {
+                                    qrResult.textContent = 'No QR code found. Try again with better lighting or a clearer code.';
+                                    scanActive = false;
+                                    cleanupScanner();
+                                }
+                            }, 15000);
+                            tick();
+                        }
+                        // Add a small delay to allow video to initialize
+                        setTimeout(startScanLoop, 300);
                     })
                     .catch(err => {
-                        alert('Camera access denied or not available.');
+                        qrResult.textContent = 'Camera access denied or not available.';
                     });
-            }
-            function tick() {
-                if (!scanActive) return;
-                if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
-                    if (code) {
-                        scanActive = false;
-                        alert('QR Code detected: ' + code.data);
-                        showMessFoodScanner();
-                        return;
-                    }
-                }
-                requestAnimationFrame(tick);
+            } else {
+                qrResult.textContent = 'Camera not supported on this device.';
             }
             // Add back button event
             const backBtn = document.getElementById('scannerBackBtn');
             if (backBtn) {
                 backBtn.addEventListener('click', function() {
                     scanActive = false;
+                    if (scanTimeout) clearTimeout(scanTimeout);
                     showMessFoodScanner();
                 });
             }
@@ -307,7 +348,7 @@ showMessFoodScanner = function() { cleanupScanner(); origShowMessFoodScanner(); 
 
 
 //remove (directly access mess pass)
-function showMessPassPreview() {
+function showMessPassPreview(mealName) {
     fetch('components/MessPass.html')
         .then(res => res.text())
         .then(html => {
@@ -315,7 +356,7 @@ function showMessPassPreview() {
             // Use actual user data
             const userData = JSON.parse(localStorage.getItem('lpuUserData')) || {};
             document.getElementById('messPassProfilePic').src = userData.profilePic || 'assets/lappu.png';
-            document.getElementById('messPassMealName').textContent = 'Lunch'; // You can make this dynamic if needed
+            document.getElementById('messPassMealName').textContent = mealName || 'Meal';
             document.getElementById('messPassRegId').textContent = userData.regId || 'Reg ID';
             // Format name
             if (userData.name) {
