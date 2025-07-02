@@ -1,18 +1,18 @@
 // Main JavaScript file
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Check if user data exists in localStorage
-//     const userData = JSON.parse(localStorage.getItem('lpuUserData'));
-//     if (!userData) {
-//         showLoginPage(true); // First time user
-//     } else {
-//         showLoginPage(false); // Returning user
-//     }
-// });
-
 document.addEventListener('DOMContentLoaded', () => {
-    showDashboard();
+    // Check if user data exists in localStorage
+    const userData = JSON.parse(localStorage.getItem('lpuUserData'));
+    if (!userData) {
+        showLoginPage(true); // First time user
+    } else {
+        showLoginPage(false); // Returning user
+    }
 });
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     showDashboard();
+// });
 
 function showLoginPage(isFirstTime) {
     fetch('components/Login.html')
@@ -22,6 +22,7 @@ function showLoginPage(isFirstTime) {
             const form = document.getElementById('login-form');
             const profilePicInput = document.getElementById('profile-pic');
             const profilePicPreview = document.getElementById('profile-pic-preview');
+            const messSelect = document.getElementById('mess-select');
 
             if (!isFirstTime) {
                 // Hide extra fields for returning users (hide the whole input-group)
@@ -34,6 +35,12 @@ function showLoginPage(isFirstTime) {
                 document.getElementById('name').required = false;
                 document.getElementById('father-name').required = false;
                 document.getElementById('mother-name').required = false;
+
+                // Set mess select value to saved value if exists
+                const userData = JSON.parse(localStorage.getItem('lpuUserData'));
+                if (userData && userData.mess) {
+                    messSelect.value = userData.mess;
+                }
             }
 
             // Profile picture preview
@@ -59,23 +66,30 @@ function showLoginPage(isFirstTime) {
                     const mother = document.getElementById('mother-name').value.trim();
                     const regId = document.getElementById('reg-id').value.trim();
                     const password = document.getElementById('password').value;
+                    const mess = messSelect.value;
                     let profilePicData = '';
                     if (profilePicInput && profilePicInput.files[0]) {
                         const reader = new FileReader();
                         reader.onload = function(evt) {
                             profilePicData = evt.target.result;
-                            saveUserData({ name, father, mother, regId, password, profilePic: profilePicData });
+                            saveUserData({ name, father, mother, regId, password, profilePic: profilePicData, mess });
                         };
                         reader.readAsDataURL(profilePicInput.files[0]);
                     } else {
-                        saveUserData({ name, father, mother, regId, password, profilePic: '' });
+                        saveUserData({ name, father, mother, regId, password, profilePic: '', mess });
                     }
                 } else {
                     // Only reg id and password
                     const regId = document.getElementById('reg-id').value.trim();
                     const password = document.getElementById('password').value;
+                    const mess = messSelect.value;
                     const userData = JSON.parse(localStorage.getItem('lpuUserData'));
                     if (userData && regId === userData.regId && password === userData.password) {
+                        // Update mess if changed
+                        if (mess !== userData.mess) {
+                            userData.mess = mess;
+                            localStorage.setItem('lpuUserData', JSON.stringify(userData));
+                        }
                         showLoadingSkeleton();
                         setTimeout(showDashboard, 2000);
                     } else {
@@ -365,7 +379,7 @@ function showMessPassPreview(mealName) {
             } else {
                 document.getElementById('messPassName').textContent = 'Name';
             }
-            document.getElementById('messPassMessName').textContent = 'Mess-Centre-01'; // You can make this dynamic if needed
+            document.getElementById('messPassMessName').textContent = userData.mess || 'Mess Name';
             document.getElementById('messPassCourse').textContent = userData.course || 'P132:B.Tech. (Computer Science and Engineering)(2024)';
             const now = new Date();
             document.getElementById('messPassDate').textContent = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
