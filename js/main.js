@@ -1,18 +1,26 @@
 // Main JavaScript file
 
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Check if user data exists in localStorage
+//     const userData = JSON.parse(localStorage.getItem('lpuUserData'));
+//     if (!userData) {
+//         showLoginPage(true); // First time user
+//     } else {
+//         showLoginPage(false); // Returning user
+//     }
+// });
+
 document.addEventListener('DOMContentLoaded', () => {
     // Check if user data exists in localStorage
     const userData = JSON.parse(localStorage.getItem('lpuUserData'));
     if (!userData) {
-        showLoginPage(true); // First time user
+        showLoginPage(true); // First time user - show full signup form
     } else {
-        showLoginPage(false); // Returning user
+        // User has already signed up - go directly to dashboard
+        showLoadingSkeleton();
+        setTimeout(showDashboard, 1000);
     }
 });
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     showDashboard();
-// });
 
 function showLoginPage(isFirstTime) {
     fetch('components/Login.html')
@@ -190,6 +198,10 @@ function openSideMenu() {
 
             // Close menu on overlay click
             document.getElementById('sideMenuOverlay').addEventListener('click', closeSideMenu);
+            
+            // Setup hostel bed functionality
+            setupHostelBedFunctionality();
+            
             // Logout
             document.getElementById('sideMenuLogout').addEventListener('click', function() {
                 localStorage.removeItem('lpuUserData');
@@ -209,6 +221,73 @@ function closeSideMenu() {
             if (menu.parentNode) menu.parentNode.removeChild(menu);
             if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
         }, 350);
+    }
+}
+
+function setupHostelBedFunctionality() {
+    const hostelBedInput = document.getElementById('hostelBedInput');
+    const saveHostelBedBtn = document.getElementById('saveHostelBed');
+    const messSelect = document.getElementById('sideMenuMessSelect');
+    const saveMessBtn = document.getElementById('saveMessSelect');
+    
+    if (hostelBedInput && saveHostelBedBtn) {
+        // Load existing hostel bed data
+        const userData = JSON.parse(localStorage.getItem('lpuUserData'));
+        if (userData && userData.hostelBed) {
+            hostelBedInput.value = userData.hostelBed;
+        }
+        
+        // Save hostel bed data
+        saveHostelBedBtn.addEventListener('click', function() {
+            const hostelBed = hostelBedInput.value.trim();
+            if (hostelBed) {
+                const userData = JSON.parse(localStorage.getItem('lpuUserData')) || {};
+                userData.hostelBed = hostelBed;
+                localStorage.setItem('lpuUserData', JSON.stringify(userData));
+                
+                // Show success feedback
+                saveHostelBedBtn.textContent = 'Saved!';
+                saveHostelBedBtn.style.background = 'linear-gradient(90deg, #4CAF50 0%, #45a049 100%)';
+                setTimeout(() => {
+                    saveHostelBedBtn.textContent = 'Save';
+                    saveHostelBedBtn.style.background = 'linear-gradient(90deg, #ff6e7f 0%, #ffb86c 100%)';
+                }, 1500);
+            }
+        });
+        
+        // Allow Enter key to save
+        hostelBedInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                saveHostelBedBtn.click();
+            }
+        });
+    }
+    
+    // Setup mess select functionality
+    if (messSelect && saveMessBtn) {
+        // Load existing mess data
+        const userData = JSON.parse(localStorage.getItem('lpuUserData'));
+        if (userData && userData.mess) {
+            messSelect.value = userData.mess;
+        }
+        
+        // Save mess selection
+        saveMessBtn.addEventListener('click', function() {
+            const selectedMess = messSelect.value;
+            if (selectedMess) {
+                const userData = JSON.parse(localStorage.getItem('lpuUserData')) || {};
+                userData.mess = selectedMess;
+                localStorage.setItem('lpuUserData', JSON.stringify(userData));
+                
+                // Show success feedback
+                saveMessBtn.textContent = 'Saved!';
+                saveMessBtn.style.background = 'linear-gradient(90deg, #4CAF50 0%, #45a049 100%)';
+                setTimeout(() => {
+                    saveMessBtn.textContent = 'Save';
+                    saveMessBtn.style.background = 'linear-gradient(90deg, #ff6e7f 0%, #ffb86c 100%)';
+                }, 1500);
+            }
+        });
     }
 }
 
@@ -241,6 +320,10 @@ function showMessFoodScanner() {
                 document.getElementById('messFatherName').textContent = userData.father || '';
                 document.getElementById('messMotherName').textContent = userData.mother || '';
                 document.getElementById('messProgram').textContent = userData.course || 'P132:B.Tech. (Computer Science and Engineering)(2024)';
+                
+                // Display hostel bed information
+                const hostelBed = userData.hostelBed || 'A417-Bed A';
+                document.getElementById('messHostel').textContent = `Boys Hostel-01-${hostelBed} (Std AC 4 Seater)`;
             }
             // Add back arrow event
             const backArrow = document.getElementById('messBackArrow');
