@@ -166,7 +166,7 @@ body {
   gap: 4px;
 }
 .dashboard-tile-active {
-  border: 2px solid #ffb86c;
+  border: 2px solid #ff5328cc;
 }
 .dashboard-tile-badge {
   position: absolute;
