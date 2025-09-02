@@ -624,14 +624,15 @@ body {
     flex-direction: column;
     gap: 0.7rem;
     margin-bottom: 0.5rem;
+    margin-top: 1.3rem;
 }
 .mess-profile-info b {
     color: #000000;
-    font-weight: 599;
+    font-weight: 600;
 }
 .mess-food-message {
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     color: #222;
     margin: 2rem 1rem 1.8rem 1rem;
     font-weight: 400;

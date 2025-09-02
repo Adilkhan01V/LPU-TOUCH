@@ -386,6 +386,17 @@ function showScannerPage(mealName) {
                                     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
                                     const code = jsQR(imageData.data, canvas.width, canvas.height);
                                     if (code) {
+                                        // Play beep sound when QR code is detected
+                                        const beepSound = new Audio('assets/beep.mp3');
+                                        // Configure audio for mobile speaker output
+                                        beepSound.volume = 1.0;
+                                        beepSound.preload = 'auto';
+                                        // Ensure it plays through speaker on mobile devices
+                                        if (beepSound.setSinkId) {
+                                            beepSound.setSinkId('default').catch(() => {});
+                                        }
+                                        beepSound.play().catch(err => console.log('Could not play beep sound:', err));
+                                        
                                         qrResult.textContent = 'QR Code: ' + code.data;
                                         scanActive = false;
                                         cleanupScanner();
@@ -481,7 +492,8 @@ function showMessPassPreview(mealName) {
                 if (timerElem) timerElem.textContent = timer;
                 if (timer <= 0) {
                     clearInterval(interval);
-                    // Optionally, you can add logic here to auto-close or show a message
+                    // Auto-close the page when timer hits 0
+                    showMessFoodScanner();
                 }
             }, 1000);
         });
