@@ -208,6 +208,17 @@ function openSideMenu() {
                 closeSideMenu();
                 setTimeout(() => location.reload(), 350);
             });
+
+            // Add click handlers for menu items
+            document.querySelectorAll('.side-menu-list li').forEach(li => {
+                li.addEventListener('click', function() {
+                    const text = li.textContent.trim();
+                    if (text === 'Doctor Appointment') {
+                        closeSideMenu();
+                        showMessPassPreview();
+                    }
+                });
+            });
         });
 }
 
@@ -338,6 +349,11 @@ function showMessFoodScanner() {
                     showScannerPage(mealName);
                 });
             });
+            // Add rate us button event
+            const rateUsBtn = document.querySelector('.rate-us-btn-scanner');
+            if (rateUsBtn) {
+                rateUsBtn.addEventListener('click', showRateUs);
+            }
         });
 }
 
@@ -484,6 +500,12 @@ function showMessPassPreview(mealName) {
             const closeBtn = document.getElementById('messPassCloseBtn');
             if (closeBtn) closeBtn.addEventListener('click', showDashboard);
 
+            // Add rate us button event
+            const rateUsBtn = document.querySelector('.rate-us-btn');
+            if (rateUsBtn) {
+                rateUsBtn.addEventListener('click', showRateUs);
+            }
+
             // TIMER LOGIC
             let timer = 30;
             const timerElem = document.getElementById('messPassTimer');
@@ -498,6 +520,49 @@ function showMessPassPreview(mealName) {
             }, 1000);
         });
 }
+
+function showRateUs() {
+    fetch('components/RateUs.html')
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('app').innerHTML = html;
+            // Animate slide up
+            setTimeout(() => {
+                const card = document.querySelector('.rateus-card');
+                if (card) card.style.transform = 'translateY(10%)';
+            }, 10);
+            // Close button event
+            const closeBtn = document.getElementById('rateUsCloseBtn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', showDashboard);
+            }
+            // Rating stars interaction
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-rating');
+                    stars.forEach(s => s.classList.remove('active'));
+                    for (let i = 0; i < rating; i++) {
+                        stars[i].classList.add('active');
+                    }
+                });
+            });
+            // Submit button (for now, just close)
+            const submitBtn = document.querySelector('.submit-rating-btn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', () => {
+                    const card = document.querySelector('.rateus-card');
+                    if (card) {
+                        card.style.transform = 'translateY(100%)';
+                        setTimeout(showDashboard, 500);
+                    } else {
+                        showDashboard();
+                    }
+                });
+            }
+        });
+}
+
 // Temporary: Press P to preview Mess Pass page
 document.addEventListener('keydown', function(e) {
     if (e.key === 'p' || e.key === 'P') {

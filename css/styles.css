@@ -591,7 +591,7 @@ body {
     width: 100%;
     max-width: 800px;
     margin: 0.4rem 0.2rem 0 0.2rem;
-    padding: 1.3rem 0 1.5rem 1.2rem;
+    padding: 1.3rem 0 0.6rem 1.2rem;
     background: linear-gradient(90deg, #f87d8b 0%, #ffb86c 100%);
     border-radius: 10px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.10);
@@ -624,18 +624,70 @@ body {
     flex-direction: column;
     gap: 0.7rem;
     margin-bottom: 0.5rem;
-    margin-top: 1.3rem;
+    margin-top: 0.6rem;
 }
 .mess-profile-info b {
     color: #000000;
     font-weight: 600;
 }
 .mess-food-message {
+    font-family: 'Arial', sans-serif;
     text-align: center;
     font-size: 1.6rem;
     color: #222;
-    margin: 2rem 1rem 1.8rem 1rem;
-    font-weight: 400;
+    margin: 2rem 1.3rem 1rem 1.3rem;
+    font-weight: 500;
+}
+.rate-us-btn {
+    display: block;
+    margin: 0 auto 0.6rem;
+    padding-right: 0.3rem;
+    font-size: 1rem;
+    font-weight: 900;
+    font-family: 'Arial', sans-serif;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: auto;
+    text-shadow: 0.5px 0.5px 0px rgba(0,0,0,0.2);
+    border: 2.5px solid #943e00;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rate-us-star {
+    width: 22px;
+    height: 22px;
+}
+.rate-us-star-scanner {
+    width: 18px;
+    height: 18px;
+    margin-left: 0.6rem;
+    margin-right: 0.1rem;
+}
+.rate-us-btn:hover {
+    background: #8B4513;
+    color: #fff;
+}
+.rate-us-btn-scanner {
+    display: block;
+    margin: 0 auto 0.6rem;
+    padding-right: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    font-family: 'Arial', sans-serif;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: auto;
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .mess-meal-cards {
     display: grid;
@@ -644,7 +696,7 @@ body {
     justify-content: center;
 }
 .mess-meal-card {
-    padding: 1.4rem 0.2rem;
+    padding: 1.3rem 0.1rem;
     font-size: 1rem;
     font-weight: 500;
     border: none;
@@ -690,6 +742,7 @@ body {
     filter: brightness(0) invert(1);
 }
 .mess-topbar-title {
+  font-family: Arial, Helvetica, sans-serif;
     color: #fff;
     opacity: 0.8;
     font-weight: 400;
@@ -709,7 +762,7 @@ body {
     left: 48%;
     transform: translateX(-50%);
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
 }
 
 .mess-topbar-right {
@@ -828,12 +881,12 @@ body {
 .messpass-bg {
   background: #f8f8f8;
   min-height: 100vh;
-  height: 100vh;
+  height: auto;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 0.8rem 0.5rem 1rem 0.5rem;
-  overflow: hidden;
+  overflow: auto;
 }
 .messpass-card {
   padding-left: 0;
@@ -842,12 +895,16 @@ body {
   border: 1.5px solid #8b8989;
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  padding: 1rem 0 1rem 0;
+  padding: 1rem 0 3rem 0;
   max-width: 400px;
   width: 100%;
   position: relative;
   margin-top: 0;
   overflow: hidden;
+}
+.messpass-card * {
+  font-family: Arial, sans-serif !important;
+  font-weight: bold !important;
 }
 .messpass-timer {
   position: absolute;
@@ -887,21 +944,23 @@ body {
   font-weight: 600;
 }
 .messpass-meal-info > div {
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 .messpass-meal-name {
   font-size: 1.9rem;
-  font-weight: 700;
+  font-weight: 900;
   margin-bottom: 0.8rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
 }
 .messpass-regid, .messpass-name, .messpass-messname {
   font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
+  font-weight: 900;
+  margin-bottom: 0.2rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 .messpass-course {
   font-size: 1.05rem;
-  color: #444;
+  color: #000000;
   font-weight: 650;
   margin-bottom: 1.5rem;
   margin-top: 1.4rem;
@@ -912,7 +971,7 @@ body {
   display: flex;
   justify-content:space-between;
   font-size: 1.3rem;
-  color: #444;
+  color: #000000;
   font-weight: 650;
   margin-bottom: 1.1rem;
   margin-top: 2rem;
@@ -951,17 +1010,166 @@ body, #app {
 }
 
 .video-placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   margin-top: 1rem;
+  position: relative;
 }
 .video-placeholder video {
   width: 100%;
   height: auto;
   aspect-ratio: 360/430;
   max-width: 100%;
-  border-radius: 12px;
   display: block;
+  margin: 0 auto;
+  border: 20px solid #024102;
+}
+.video-green-bar {
+  height: 20px;
+  background: #024102;
+  width: 100%;
+  position: absolute;
+  bottom: -1;
+  left: 0;
+  z-index: 1;
+}.video-left-bar {
+ width: 18px;
+  height: 50px;
+  background: #024102;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+.video-right-bar {
+  width: 19px;
+  height: 50px;
+  background: #024102;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+.video-white-bar {
+  height: 50px;
+  background: rgb(255, 255, 255);
+  width: 88.4%;
+  position: absolute;
+  bottom: 35px;
+  left: 20px;
+  z-index: 2;
+}
+
+/* Meal Approved Style */
+.meal-approved {
+    text-align: center;
+    margin: 1rem 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.meal-approved img {
+    max-width: 185px;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+/* Rate Us Page Styles */
+.rateus-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    background: #222;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+.rateus-bar-drag {
+    width: 40px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.rateus-bar-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+.rateus-bar-close {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.7;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    pointer-events: auto;
+}
+.rateus-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.rateus-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    padding: 24px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+}
+.rateus-card h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+.rateus-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+.rating-stars {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 2rem;
+}
+.star {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.star:hover,
+.star.active {
+    color: #ffb86c;
+}
+.submit-rating-btn {
+    padding: 12px 24px;
+    background: linear-gradient(90deg, #ff6e7f 0%, #ffb86c 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.submit-rating-btn:hover {
+    background: linear-gradient(90deg, #ff5a6b 0%, #ffa85a 100%);
 }
